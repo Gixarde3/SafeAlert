@@ -1,0 +1,21 @@
+.logo-img{
+    height: 50px;
+}
+
+.nombre{
+    color: var(--color-accent)
+}
+
+.logo-container{
+    display: flex;
+    gap: 1rem;
+    width: auto;
+    align-items: center;
+}
+
+.principal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
