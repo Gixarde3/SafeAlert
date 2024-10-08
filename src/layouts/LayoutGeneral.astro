@@ -1,0 +1,24 @@
+---
+import '../css/Page.css';
+import '../css/HomePage.css';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.astro';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+        <meta name="description" content="SafeAlert es una plataforma que permite reportar robos, crear perfiles de criminales y recibir asistencia legal personalizada.">
+		<title>SafeAlert</title>
+	</head>
+	<body>
+		<Header client:load/>
+        <main class="main-content">
+            <slot />
+        </main>
+        <Footer />
+	</body>
+</html>
