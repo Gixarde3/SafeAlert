@@ -1,0 +1,103 @@
+---
+interface Props {
+    title: string;
+    message: string;
+    icon?: string;
+}
+
+const { title, message, icon = "⚠️" } = Astro.props;
+---
+
+<div class="alert" id="alert" style="display: none;">
+    <div class="alert-content">
+        <div class="alert-header">
+        <span class="alert-icon">{icon}</span>
+        <h2 class="alert-title">{title}</h2>
+        </div>
+        <p class="alert-message">{message}</p>
+        <button type="button" class="btn btn-primary" id="alertCloseBtn">Aceptar</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const alertElement = document.getElementById('alert');
+    const closeButton = document.getElementById('alertCloseBtn');
+    const openButton = document.getElementById('openAlertBtn');
+
+    if (closeButton && alertElement) {
+    closeButton.addEventListener('click', () => {
+        alertElement.style.display = 'none';
+    });
+    }
+
+    if (openButton && alertElement) {
+    openButton.addEventListener('click', () => {
+        alertElement.style.display = 'flex';
+    });
+    }
+});
+</script>
+
+<style>
+.alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.alert-content {
+    background-color: var(--color-background);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    width: 400px;
+}
+
+.alert-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.alert-title {
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.alert-message {
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: white;
+}
+</style>

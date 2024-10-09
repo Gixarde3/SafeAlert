@@ -1,8 +1,10 @@
 ---
+import Alert from "./Alert.astro"
 ---
 
 <div class="form-group">
-    <label for="address">Dirección:</label>
+    <label for="address">¿Por dónde ocurrió el incidente?</label>
+    <p class="help-text">La zona será aproximada será de 1km</p>
     <div class="input-group">
     <input type="text" id="address" name="address" required>
     <button type="button" id="searchBtn" class="btn btn-secondary">Buscar</button>
@@ -11,8 +13,13 @@
 <div id="map" class="map-container"></div>
 <input type="hidden" id="latitude" name="latitude" readonly>
 <input type="hidden" id="longitude" name="longitude" readonly>
+<button type="button" id="openAlertBtn" class="hidden">Open Alert</button>
 
-    
+<Alert
+    title="Error"
+    message="No se encontraron resultados para la dirección ingresada."
+    icon="❌"
+/>
 <script>
     import mapboxgl from 'mapbox-gl';
     import * as turf from '@turf/turf';
@@ -32,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchBtn = document.getElementById('searchBtn');
     const latitudeInput = document.getElementById('latitude') as HTMLInputElement;
     const longitudeInput = document.getElementById('longitude') as HTMLInputElement;
+    const openButton = document.getElementById('openAlertBtn');
 
     let marker = new mapboxgl.Marker({ draggable: false })
         .setLngLat([-3.703790, 40.416775])
@@ -79,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 updateCoordinates(lng, lat);
                 addCircle([lng, lat]);
             } else {
-                alert('Dirección no encontrada');
+                openButton.click();
             }
         });
     }

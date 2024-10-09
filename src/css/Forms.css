@@ -155,6 +155,12 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
+.hidden{
+  opacity: 0;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {

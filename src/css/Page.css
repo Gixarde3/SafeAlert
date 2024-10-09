@@ -118,6 +118,11 @@ main{
     color: white;
 }
 
+a.btn-primary {
+    text-decoration: none;
+    color: white;
+}
+
 .btn-secondary {
     background-color: white;
     color: var(--color-primary);
