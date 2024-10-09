@@ -70,12 +70,14 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="tel"],
+input[type="date"],
 textarea {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #d1d5db;
   border-radius: 0.25rem;
   font-size: 1rem;
+  font-family: var(--font-family);
 }
 
 textarea {
@@ -160,6 +162,15 @@ textarea {
   height: 0;
   width: 0;
   overflow: hidden;
+}
+
+#searchBtn, #ubicacionBtn{
+  padding: 0.3rem;
+}
+
+#searchBtn > svg{
+  width: 1.5rem;
+  height: 1.5rem;
 }
 /* Responsive Design */
 @media (max-width: 768px) {
