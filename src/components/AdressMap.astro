@@ -1,0 +1,145 @@
+---
+---
+
+<div class="form-group">
+    <label for="address">Dirección:</label>
+    <div class="input-group">
+    <input type="text" id="address" name="address" required>
+    <button type="button" id="searchBtn" class="btn btn-secondary">Buscar</button>
+    </div>
+</div>
+<div id="map" class="map-container"></div>
+<input type="hidden" id="latitude" name="latitude" readonly>
+<input type="hidden" id="longitude" name="longitude" readonly>
+
+    
+<script>
+    import mapboxgl from 'mapbox-gl';
+    import * as turf from '@turf/turf';
+
+document.addEventListener('DOMContentLoaded', function () {
+    /**Obtener accessToken del .env */
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2l4YXJkZTMiLCJhIjoiY20yMWJrbjFuMGZmczJscHB1MzZ2aHRraiJ9.bfcL1RerJuPQ0svS1zbucA'
+
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [18.920846, 40.416775], // Madrid coordinates
+        zoom: 1
+    });
+
+    const addressInput = document.getElementById('address') as HTMLInputElement;
+    const searchBtn = document.getElementById('searchBtn');
+    const latitudeInput = document.getElementById('latitude') as HTMLInputElement;
+    const longitudeInput = document.getElementById('longitude') as HTMLInputElement;
+
+    let marker = new mapboxgl.Marker({ draggable: false })
+        .setLngLat([-3.703790, 40.416775])
+        .addTo(map);
+
+    function updateCoordinates(lng, lat) {
+        latitudeInput.value = lat.toFixed(6);
+        longitudeInput.value = lng.toFixed(6);
+    }
+
+    function addCircle(center) {
+        const radius = 1; // in km
+        
+        const circle = turf.circle(center, radius);
+
+        if (map.getSource('circle')) {
+            (map.getSource('circle') as mapboxgl.GeoJSONSource).setData(circle);
+        } else {
+            map.addSource('circle', {
+                type: 'geojson',
+                data: circle
+            });
+
+            map.addLayer({
+                id: 'circle',
+                type: 'fill',
+                source: 'circle',
+                paint: {
+                    'fill-color': '#007cbf',
+                    'fill-opacity': 0.5
+                }
+            });
+        }
+    }
+
+    function searchAddress() {
+        const address = addressInput.value;
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxgl.accessToken}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.features && data.features.length > 0) {
+                const [lng, lat] = data.features[0].center;
+                marker.setLngLat([lng, lat]);
+                map.flyTo({ center: [lng, lat], zoom: 13 });
+                updateCoordinates(lng, lat);
+                addCircle([lng, lat]);
+            } else {
+                alert('Dirección no encontrada');
+            }
+        });
+    }
+
+    searchBtn.addEventListener('click', searchAddress);
+
+    addressInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+        e.preventDefault();
+        searchAddress();
+        }
+    });
+
+    marker.on('dragend', function() {
+        const lngLat = marker.getLngLat();
+        updateCoordinates(lngLat.lng, lngLat.lat);
+        addCircle([lngLat.lng, lngLat.lat]);
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.features && data.features.length > 0) {
+            addressInput.value = data.features[0].place_name;
+            }
+        });
+    });
+
+    map.on('click', function(e) {
+        marker.setLngLat(e.lngLat);
+        updateCoordinates(e.lngLat.lng, e.lngLat.lat);
+        addCircle([e.lngLat.lng, e.lngLat.lat]);
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${e.lngLat.lng},${e.lngLat.lat}.json?access_token=${mapboxgl.accessToken}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.features && data.features.length > 0) {
+            addressInput.value = data.features[0].place_name;
+            }
+        });
+    });
+});
+</script>
+    
+<style>
+    @import 'mapbox-gl/dist/mapbox-gl.css';
+  
+    .map-container {
+        height: 300px;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .input-group input {
+        flex-grow: 1;
+    }
+
+    #searchBtn {
+        flex-shrink: 0;
+    }
+</style>

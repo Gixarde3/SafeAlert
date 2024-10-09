@@ -16,6 +16,18 @@
 .principal-header{
     display: flex;
     justify-content: space-between;
+    padding-inline: 1rem;
+    max-width: 100%;
+}
+
+header > .principal-header, header > .container{
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+}
+
+header > .container, footer > .container{
     width: 100%;
+    max-width: 100%;
+    padding: 0;
 }

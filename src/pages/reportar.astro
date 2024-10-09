@@ -1,0 +1,67 @@
+---
+import LayoutGeneral from "../layouts/LayoutGeneral.astro";
+import BtnDonar from "../components/BtnDonar.astro";
+import AddressMap from "../components/AdressMap.astro";
+import '../css/Forms.css';
+---
+ <LayoutGeneral titulo="Reportar incidente - SafeAlert">
+    <header class="page-header">
+        <h1 class="page-title">Reportar un Incidente</h1>
+        <p class="page-subtitle">Describe brevemente lo sucedido y déjanos tus datos de contacto para ayudarte.</p>
+        <p class="page-description">Tu reporte es fundamental para la creación de perfiles de criminales y desempeña un papel crucial en la seguridad de nuestra comunidad.</p>
+      </header>
+
+      <form class="report-form">
+        <div class="form-group">
+          <label for="fullName">Nombre Completo</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Número Telefónico</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+          />
+        </div>
+
+        <AddressMap />
+
+        <div class="form-group">
+          <label for="incident">Relato del Incidente</label>
+          <textarea
+            id="incident"
+            name="incident"
+            required
+            placeholder="Por favor, describe lo que ocurrió, incluyendo la ubicación, la fecha y cualquier detalle importante que recuerdes."
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Procesar Reporte</button>
+          <p class="help-text">Nuestra inteligencia artificial analizará tu reporte, extrayendo los datos clave para determinar si existe un informe similar. De ser así, se unirá a dicho reporte para proporcionar más detalles.</p>
+        </div>
+      </form>
+
+      <div class="donation-cta">
+        <p>Apoya nuestra labor con una donación voluntaria.</p>
+        <BtnDonar />
+      </div>
+ </LayoutGeneral>

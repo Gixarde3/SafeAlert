@@ -22,8 +22,8 @@ export default function Header() {
                 </div>
             <nav className={`main-nav ${isMenuOpen ? 'is-open' : ''}`}>
                 <ul className="nav-list">
-                <li><a href="#" className="nav-link">Inicio</a></li>
-                <li><a href="#" className="nav-link">Reportar</a></li>
+                <li><a href="/" className="nav-link">Inicio</a></li>
+                <li><a href="/reportar" className="nav-link">Reportar</a></li>
                 <li><a href="#" className="nav-link">Perfiles</a></li>
                 <li><a href="#" className="nav-link">Asistencia Legal</a></li>
                 <li><a href="#" className="nav-link">Conciencia Pública</a></li>

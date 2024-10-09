@@ -3,6 +3,7 @@ import '../css/Page.css';
 import '../css/HomePage.css';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
+const {titulo} = Astro.props;
 ---
 
 <html lang="en">
@@ -12,7 +13,7 @@ import Footer from '../components/Footer.astro';
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
         <meta name="description" content="SafeAlert es una plataforma que permite reportar robos, crear perfiles de criminales y recibir asistencia legal personalizada.">
-		<title>SafeAlert</title>
+		<title>{titulo}</title>
 	</head>
 	<body>
 		<Header client:load/>
